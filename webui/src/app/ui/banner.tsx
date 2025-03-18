@@ -67,7 +67,11 @@ export default function Banner() {
                             sx={{ 
                                 fontWeight: 600, 
                                 color: 'black',
-                                display: { xs: 'none', sm: 'block' }
+                                fontSize: { xs: '12px', sm: '14px', md: '16px' },
+                                display: { xs: 'none', sm: 'block' },
+                                '&:hover': {
+                                        color: '#0d47a1',
+                                    }
                             }}
                         >
                             Kvrocks Controller
@@ -93,9 +97,23 @@ export default function Banner() {
                                     px: { xs: 0.5, sm: 1.5 },
                                     py: 1,
                                     fontSize: { xs: '0.875rem', sm: '1rem' },
+                                    position: 'relative',
                                     '&:hover': {
                                         color: '#0d47a1',
-                                        textDecoration: 'none'
+                                    },
+                                    '&::after': {
+                                        content: '""',
+                                        position: 'absolute',
+                                        width: '0',
+                                        height: '2px',
+                                        bottom: '0',
+                                        left: '0',
+                                        backgroundColor: '#1565C0',
+                                        transition: 'width 0.3s ease-in-out',
+                                        marginLeft: { xs: '0.5px', sm: '1.5px' }
+                                    },
+                                    '&:hover::after': {
+                                        width: 'calc(100% - 16px)'  // Adjusting for padding
                                     }
                                 }}
                             >
@@ -110,7 +128,24 @@ export default function Banner() {
                             color="primary" 
                             onClick={toggleDarkMode}
                             aria-label="Toggle dark mode"
-                            sx={{ color: 'black' }}
+                            sx={{ 
+                                color: 'black',
+                                position: 'relative',
+                                '&:hover': { color: '#0d47a1' },
+                                '&::after': {
+                                    content: '""',
+                                    position: 'absolute',
+                                    width: '0',
+                                    height: '2px',
+                                    bottom: '5px',
+                                    left: '25%',
+                                    backgroundColor: '#1565C0',
+                                    transition: 'width 0.3s ease-in-out'
+                                },
+                                '&:hover::after': {
+                                    width: '50%'
+                                }
+                            }}
                         >
                             <DarkMode />
                         </IconButton>
@@ -123,7 +158,24 @@ export default function Banner() {
                             target="_blank"
                             rel="noopener noreferrer"
                             aria-label="GitHub repository"
-                            sx={{ color: 'black' }}
+                            sx={{ 
+                                color: 'black',
+                                position: 'relative',
+                                '&:hover': { color: '#0d47a1' },
+                                '&::after': {
+                                    content: '""',
+                                    position: 'absolute',
+                                    width: '0',
+                                    height: '2px',
+                                    bottom: '5px',
+                                    left: '25%',
+                                    backgroundColor: '#1565C0',
+                                    transition: 'width 0.3s ease-in-out'
+                                },
+                                '&:hover::after': {
+                                    width: '50%'
+                                }
+                            }}
                         >
                             <GitHub />
                         </IconButton>

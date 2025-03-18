@@ -17,36 +17,65 @@
  * under the License. 
  */
 
-import { Box, Button, Card, CardContent, Container, Divider, Grid, Link, Paper, Stack, Typography } from "@mui/material";
+import { Box, Button, Container, Divider, Grid, Link, Paper, Stack, Typography } from "@mui/material";
 import SettingsIcon from '@mui/icons-material/Settings';
 import StorageIcon from '@mui/icons-material/Storage';
 import SpeedIcon from '@mui/icons-material/Speed';
 import SecurityIcon from '@mui/icons-material/Security';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
-import StorageRoundedIcon from '@mui/icons-material/StorageRounded';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 export default function Home() {
+    // Enhanced features with better descriptions
     const features = [
         {
-            title: "Cluster Management",
-            description: "Easily manage and monitor your Kvrocks cluster deployments.",
-            icon: <StorageIcon sx={{ fontSize: 48, color: "#2196f3" }} />
+            title: "Centralized Cluster Management",
+            description: "Seamlessly orchestrate multiple Kvrocks clusters from a single intuitive interface, with powerful controls for node deployment, migration, and scaling.",
+            icon: <StorageIcon sx={{ 
+                fontSize: 52, 
+                color: 'white',
+                background: 'linear-gradient(135deg, #2196f3 30%, #0d47a1 90%)',
+                p: 1,
+                borderRadius: '50%',
+                boxShadow: '0 4px 8px rgba(33, 150, 243, 0.3)'
+            }} />
         },
         {
-            title: "Performance Monitoring",
-            description: "Real-time metrics and performance insights for your nodes.",
-            icon: <SpeedIcon sx={{ fontSize: 48, color: "#4caf50" }} />
+            title: "Real-Time Monitoring & Analytics",
+            description: "Track crucial metrics with customizable dashboards that provide insights into performance bottlenecks, resource utilization, and system health for proactive maintenance.",
+            icon: <DashboardIcon sx={{ 
+                fontSize: 52, 
+                color: 'white',
+                background: 'linear-gradient(135deg, #1976d2 30%, #0d47a1 90%)',
+                p: 1,
+                borderRadius: '50%',
+                boxShadow: '0 4px 8px rgba(33, 150, 243, 0.3)'
+            }} />
         },
         {
-            title: "Configuration Control",
-            description: "Centralized configuration management for all cluster instances.",
-            icon: <SettingsIcon sx={{ fontSize: 48, color: "#ff9800" }} />
+            title: "Advanced Configuration Management",
+            description: "Define, version, and deploy configuration changes across your entire infrastructure with robust validation, rollback capabilities, and configuration templates.",
+            icon: <SettingsIcon sx={{ 
+                fontSize: 52, 
+                color: 'white',
+                background: 'linear-gradient(135deg, #1565C0 30%, #0d47a1 90%)',
+                p: 1,
+                borderRadius: '50%',
+                boxShadow: '0 4px 8px rgba(33, 150, 243, 0.3)'
+            }} />
         },
         {
-            title: "Security Management",
-            description: "Comprehensive security controls and access management.",
-            icon: <SecurityIcon sx={{ fontSize: 48, color: "#f44336" }} />
+            title: "Enterprise Security Controls",
+            description: "Implement comprehensive access management with role-based permissions, audit logging, and secure communications between controller and nodes.",
+            icon: <SecurityIcon sx={{ 
+                fontSize: 52, 
+                color: 'white',
+                background: 'linear-gradient(135deg, #0d47a1 30%, #052c65 90%)',
+                p: 1,
+                borderRadius: '50%',
+                boxShadow: '0 4px 8px rgba(33, 150, 243, 0.3)'
+            }} />
         }
     ];
 
@@ -54,13 +83,13 @@ export default function Home() {
         {
             title: "GitHub Repository",
             description: "Access the source code, contribute, and report issues.",
-            icon: <GitHubIcon sx={{ fontSize: 36, color: "#333" }} />,
+            icon: <GitHubIcon sx={{ fontSize: 36, color: "#1565C0" }} />,
             link: "https://github.com/apache/kvrocks-controller"
         },
         {
             title: "Documentation",
             description: "Learn how to use Kvrocks Controller effectively.",
-            icon: <MenuBookIcon sx={{ fontSize: 36, color: "#0277bd" }} />,
+            icon: <MenuBookIcon sx={{ fontSize: 36, color: "#1565C0" }} />,
             link: "https://github.com/apache/kvrocks-controller/wiki"
         }
     ];
@@ -104,8 +133,25 @@ export default function Home() {
                 >
                     Apache Kvrocks Controller
                 </Typography>
-                <Typography variant="h5" color="text.secondary" paragraph sx={{ maxWidth: '800px', mx: 'auto', mb: 4 }}>
-                    A unified management interface for your Kvrocks distributed key-value storage system
+
+                {/* Enhanced tagline with decorative line */}
+                <Box sx={{ 
+                    width: '120px', 
+                    height: '3px', 
+                    background: 'linear-gradient(90deg, transparent, #1565C0, transparent)',
+                    mb: 3,
+                    borderRadius: '3px'
+                }} />
+
+                <Typography variant="h5" color="text.secondary" paragraph sx={{ 
+                    maxWidth: '800px', 
+                    mx: 'auto', 
+                    mb: 4,
+                    fontWeight: 300,
+                    lineHeight: 1.5
+                }}>
+                    A comprehensive management interface for distributed Kvrocks clusters, 
+                    designed for reliability, scalability, and operational excellence
                 </Typography>
                 <Stack 
                     direction={{ xs: 'column', sm: 'row' }}
@@ -154,51 +200,81 @@ export default function Home() {
                 </Stack>
             </Box>
             
-            {/* Features Section */}
-            <Typography 
-                variant="h4" 
-                component="h2" 
-                gutterBottom 
-                sx={{ 
-                    mb: 4, 
-                    textAlign: 'center',
-                    fontWeight: 600,
-                    color: '#1565C0'
-                }}
-            >
-                Key Features
-            </Typography>
-            
-            <Grid container spacing={4}>
-                {features.map((feature, index) => (
-                    <Grid item xs={12} sm={6} md={3} key={index}>
-                        <Paper 
-                            elevation={2}
-                            sx={{
-                                height: '100%',
-                                p: 3,
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                textAlign: 'center',
-                                transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
-                                '&:hover': {
-                                    transform: 'translateY(-5px)',
-                                    boxShadow: 4
-                                }
-                            }}
-                        >
-                            <Box sx={{ mb: 2 }}>{feature.icon}</Box>
-                            <Typography variant="h6" component="h3" gutterBottom>
-                                {feature.title}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                {feature.description}
-                            </Typography>
-                        </Paper>
-                    </Grid>
-                ))}
-            </Grid>
+            {/* Features Section with enhanced styling */}
+            <Box sx={{ mb: 8 }}>
+                <Typography 
+                    variant="h4" 
+                    component="h2" 
+                    gutterBottom 
+                    sx={{ 
+                        mb: 1, 
+                        textAlign: 'center',
+                        fontWeight: 600,
+                        color: '#1565C0'
+                    }}
+                >
+                    Key Features
+                </Typography>
+                
+                {/* Decorative line under section title */}
+                <Box sx={{ 
+                    width: '80px', 
+                    height: '3px', 
+                    background: '#1565C0',
+                    mx: 'auto',
+                    mb: 5,
+                    borderRadius: '3px'
+                }} />
+                
+                <Grid container spacing={4}>
+                    {features.map((feature, index) => (
+                        <Grid item xs={12} sm={6} md={3} key={index}>
+                            <Paper 
+                                elevation={2}
+                                sx={{
+                                    height: '100%',
+                                    p: 3,
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    textAlign: 'center',
+                                    transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
+                                    borderTop: '3px solid #1565C0',
+                                    borderRadius: '4px',
+                                    '&:hover': {
+                                        transform: 'translateY(-8px)',
+                                        boxShadow: '0 10px 20px rgba(0, 0, 0, 0.1)'
+                                    }
+                                }}
+                            >
+                                <Box sx={{ 
+                                    mb: 2,
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    width: '80px',
+                                    height: '80px',
+                                }}>{feature.icon}</Box>
+                                <Typography 
+                                    variant="h6" 
+                                    component="h3" 
+                                    gutterBottom
+                                    sx={{
+                                        fontWeight: 600,
+                                        color: '#1565C0',
+                                        mb: 1.5
+                                    }}
+                                >
+                                    {feature.title}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6 }}>
+                                    {feature.description}
+                                </Typography>
+                            </Paper>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Box>
             
             {/* Documentation Section */}
             <Box sx={{ mt: 10, mb: 4 }}>
@@ -207,7 +283,7 @@ export default function Home() {
                     component="h2" 
                     gutterBottom 
                     sx={{ 
-                        mb: 4, 
+                        mb: 1, 
                         textAlign: 'center',
                         fontWeight: 600,
                         color: '#1565C0'
@@ -215,6 +291,16 @@ export default function Home() {
                 >
                     Documentation
                 </Typography>
+                
+                {/* Matching decorative line under Documentation title */}
+                <Box sx={{ 
+                    width: '80px', 
+                    height: '3px', 
+                    background: '#1565C0',
+                    mx: 'auto',
+                    mb: 5,
+                    borderRadius: '3px'
+                }} />
                 
                 <Grid container spacing={4} justifyContent="center">
                     {docs.map((doc, index) => (
@@ -228,20 +314,36 @@ export default function Home() {
                                 <Paper 
                                     elevation={2}
                                     sx={{
-                                        p: 3,
+                                        p: 4,
                                         height: '100%',
                                         display: 'flex',
                                         alignItems: 'center',
-                                        transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
+                                        borderLeft: '3px solid #1565C0',
+                                        transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
                                         '&:hover': {
                                             transform: 'translateY(-5px)',
-                                            boxShadow: 4
+                                            boxShadow: '0 8px 16px rgba(0, 0, 0, 0.1)'
                                         }
                                     }}
                                 >
-                                    <Box sx={{ mr: 3 }}>{doc.icon}</Box>
+                                    <Box sx={{ 
+                                        mr: 3,
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        width: '60px',
+                                        height: '60px',
+                                        borderRadius: '50%',
+                                        background: 'rgba(21, 101, 192, 0.1)',
+                                        p: 2
+                                    }}>{doc.icon}</Box>
                                     <Box>
-                                        <Typography variant="h6" component="h3" gutterBottom>
+                                        <Typography 
+                                            variant="h6" 
+                                            component="h3" 
+                                            gutterBottom
+                                            sx={{ color: '#1565C0', fontWeight: 600 }}
+                                        >
                                             {doc.title}
                                         </Typography>
                                         <Typography variant="body2" color="text.secondary">
@@ -255,10 +357,10 @@ export default function Home() {
                 </Grid>
             </Box>
             
-            {/* Footer */}
+            {/* Footer with improved spacing */}
             <Divider sx={{ my: 6 }} />
             
-            <Box sx={{ textAlign: 'center' }}>
+            <Box sx={{ textAlign: 'center', py: 2 }}>
                 <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
                     Apache Kvrocks Controller is currently in active development.
                 </Typography>
