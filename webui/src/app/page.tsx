@@ -17,11 +17,14 @@
  * under the License. 
  */
 
-import { Box, Button, Card, CardContent, Container, Grid, Paper, Stack, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, Container, Divider, Grid, Link, Paper, Stack, Typography } from "@mui/material";
 import SettingsIcon from '@mui/icons-material/Settings';
 import StorageIcon from '@mui/icons-material/Storage';
 import SpeedIcon from '@mui/icons-material/Speed';
 import SecurityIcon from '@mui/icons-material/Security';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import StorageRoundedIcon from '@mui/icons-material/StorageRounded';
 
 export default function Home() {
     const features = [
@@ -47,15 +50,47 @@ export default function Home() {
         }
     ];
 
+    const docs = [
+        {
+            title: "GitHub Repository",
+            description: "Access the source code, contribute, and report issues.",
+            icon: <GitHubIcon sx={{ fontSize: 36, color: "#333" }} />,
+            link: "https://github.com/apache/kvrocks-controller"
+        },
+        {
+            title: "Documentation",
+            description: "Learn how to use Kvrocks Controller effectively.",
+            icon: <MenuBookIcon sx={{ fontSize: 36, color: "#0277bd" }} />,
+            link: "https://github.com/apache/kvrocks-controller/wiki"
+        }
+    ];
+
     return (
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+            {/* Hero Section with Logo */}
             <Box sx={{ 
                 textAlign: 'center', 
                 py: 8,
                 background: 'linear-gradient(45deg, rgba(21,101,192,0.1) 0%, rgba(33,150,243,0.1) 100%)',
                 borderRadius: 2,
-                mb: 6
+                mb: 6,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
             }}>
+                {/* Logo */}
+                <Box sx={{ mb: 3 }}>
+                    <img 
+                        src="/logo.svg" 
+                        alt="Apache Kvrocks Controller Logo" 
+                        style={{ 
+                            width: "120px",
+                            height: "auto",
+                            filter: "drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.2))"
+                        }}
+                    />
+                </Box>
+                
                 <Typography 
                     variant="h2" 
                     component="h1" 
@@ -114,12 +149,23 @@ export default function Home() {
                             }
                         }}
                     >
-                        Provide Feedback
+                        Give Feedback
                     </Button>
                 </Stack>
             </Box>
             
-            <Typography variant="h4" component="h2" gutterBottom sx={{ mb: 4, textAlign: 'center' }}>
+            {/* Features Section */}
+            <Typography 
+                variant="h4" 
+                component="h2" 
+                gutterBottom 
+                sx={{ 
+                    mb: 4, 
+                    textAlign: 'center',
+                    fontWeight: 600,
+                    color: '#1565C0'
+                }}
+            >
                 Key Features
             </Typography>
             
@@ -154,7 +200,65 @@ export default function Home() {
                 ))}
             </Grid>
             
-            <Box sx={{ mt: 8, textAlign: 'center' }}>
+            {/* Documentation Section */}
+            <Box sx={{ mt: 10, mb: 4 }}>
+                <Typography 
+                    variant="h4" 
+                    component="h2" 
+                    gutterBottom 
+                    sx={{ 
+                        mb: 4, 
+                        textAlign: 'center',
+                        fontWeight: 600,
+                        color: '#1565C0'
+                    }}
+                >
+                    Documentation
+                </Typography>
+                
+                <Grid container spacing={4} justifyContent="center">
+                    {docs.map((doc, index) => (
+                        <Grid item xs={12} sm={6} md={5} key={index}>
+                            <Link 
+                                href={doc.link} 
+                                underline="none" 
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <Paper 
+                                    elevation={2}
+                                    sx={{
+                                        p: 3,
+                                        height: '100%',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
+                                        '&:hover': {
+                                            transform: 'translateY(-5px)',
+                                            boxShadow: 4
+                                        }
+                                    }}
+                                >
+                                    <Box sx={{ mr: 3 }}>{doc.icon}</Box>
+                                    <Box>
+                                        <Typography variant="h6" component="h3" gutterBottom>
+                                            {doc.title}
+                                        </Typography>
+                                        <Typography variant="body2" color="text.secondary">
+                                            {doc.description}
+                                        </Typography>
+                                    </Box>
+                                </Paper>
+                            </Link>
+                        </Grid>
+                    ))}
+                </Grid>
+            </Box>
+            
+            {/* Footer */}
+            <Divider sx={{ my: 6 }} />
+            
+            <Box sx={{ textAlign: 'center' }}>
                 <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
                     Apache Kvrocks Controller is currently in active development.
                 </Typography>
