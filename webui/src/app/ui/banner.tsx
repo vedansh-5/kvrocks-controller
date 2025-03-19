@@ -55,7 +55,19 @@ export default function Banner() {
     };
 
     return (
-        <AppBar position="static" color="default" elevation={0} sx={{ backgroundColor: 'white', borderBottom: '1px solid #eaeaea' }}>
+        <AppBar 
+            position="static" 
+            color="default" 
+            elevation={0} 
+            sx={{ 
+                backgroundColor: 'white', 
+                borderBottom: '1px solid #eaeaea',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',  // Added subtle shadow
+                position: 'sticky',  // Make the header sticky
+                top: 0,  // Stick to the top
+                zIndex: 1000  // Ensure it stays above other content
+            }}
+        >
             <Container maxWidth="xl">
                 <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', py: 1 }}>
                     {/* Left side: Logo and title */}
@@ -90,7 +102,7 @@ export default function Banner() {
                                 sx={{
                                     color: 'black',
                                     textDecoration: 'none',
-                                    fontWeight: 500,
+                                    fontWeight: 'bold',
                                     display: 'flex',
                                     alignItems: 'center',
                                     gap: 0.5,
