@@ -22,11 +22,10 @@
 import { AppBar, Box, Container, IconButton, Toolbar, Typography } from "@mui/material";
 import Link from "next/link";
 import Image from "next/image";
-import { Home, Dashboard, Storage, MenuBook, DarkMode, GitHub } from '@mui/icons-material';
+import { Home, Dashboard, Storage, MenuBook, DarkMode, LightMode, GitHub } from '@mui/icons-material';
 import { useState } from 'react';
 
 const links = [
-    
     {
         url: 'https://github.com/apache/kvrocks-controller/wiki',
         title: 'Documentation',
@@ -48,9 +47,16 @@ const links = [
 
 export default function Banner() {
     const [isDarkMode, setIsDarkMode] = useState(false);
+    const [isAnimating, setIsAnimating] = useState(false);
     
     const toggleDarkMode = () => {
-        setIsDarkMode(!isDarkMode);
+        setIsAnimating(true);
+        setTimeout(() => {
+            setIsDarkMode(!isDarkMode);
+            setTimeout(() => {
+                setIsAnimating(false);
+            }, 300);
+        }, 100);
         // Additional dark mode implementation logic can be added here
     };
 
@@ -62,10 +68,10 @@ export default function Banner() {
             sx={{ 
                 backgroundColor: 'white', 
                 borderBottom: '1px solid #eaeaea',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',  // Added subtle shadow
-                position: 'sticky',  // Make the header sticky
-                top: 0,  // Stick to the top
-                zIndex: 1000  // Ensure it stays above other content
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+                position: 'sticky',
+                top: 0,
+                zIndex: 1000
             }}
         >
             <Container maxWidth="xl">
@@ -135,11 +141,11 @@ export default function Banner() {
                             </Box>
                         ))}
 
-                        {/* Dark Mode Toggle */}
+                        {/* Dark Mode Toggle with Animated Icon Change */}
                         <IconButton 
                             color="primary" 
                             onClick={toggleDarkMode}
-                            aria-label="Toggle dark mode"
+                            aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
                             sx={{ 
                                 color: 'black',
                                 position: 'relative',
@@ -156,10 +162,38 @@ export default function Banner() {
                                 },
                                 '&:hover::after': {
                                     width: '50%'
-                                }
+                                },
+                                // Disable button during animation
+                                pointerEvents: isAnimating ? 'none' : 'auto'
                             }}
                         >
-                            <DarkMode />
+                            {/* Animated icon container */}
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    animation: isAnimating 
+                                        ? 'iconSpin 0.4s ease-in-out' 
+                                        : 'none',
+                                    '@keyframes iconSpin': {
+                                        '0%': { 
+                                            transform: 'rotate(0deg) scale(1)',
+                                            opacity: 1
+                                        },
+                                        '50%': { 
+                                            transform: 'rotate(180deg) scale(0.5)',
+                                            opacity: 0.3
+                                        },
+                                        '100%': { 
+                                            transform: 'rotate(360deg) scale(1)',
+                                            opacity: 1
+                                        }
+                                    }
+                                }}
+                            >
+                                {isDarkMode ? <LightMode /> : <DarkMode />}
+                            </Box>
                         </IconButton>
 
                         {/* GitHub Link */}
