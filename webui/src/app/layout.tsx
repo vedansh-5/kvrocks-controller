@@ -1,3 +1,5 @@
+'use client';
+
 /* 
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -17,18 +19,15 @@
  * under the License. 
  */
 
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Banner from "./ui/banner";
+import Banner, { DarkModeProvider } from "./ui/banner";
 import { Container } from "@mui/material";
+import CssBaseline from '@mui/material/CssBaseline';
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-    title: "Kvrocks Controller",
-    description: "Kvrocks Controller",
-};
+// Note: metadata must be moved to a separate metadata.js file when using 'use client'
 
 export default function RootLayout({
     children,
@@ -37,11 +36,27 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
+            <head>
+                <meta charSet="utf-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <title>Apache Kvrocks Controller</title>
+            </head>
             <body className={inter.className}>
-                <Banner />
-                <Container sx={{marginTop: '64px', height: 'calc(100vh - 64px)'}} maxWidth={false} disableGutters>
-                    {children}
-                </Container>
+                <DarkModeProvider>
+                    <CssBaseline />
+                    <Banner />
+                    <Container 
+                        sx={{
+                            marginTop: '64px', 
+                            height: 'calc(100vh - 64px)',
+                            transition: 'background-color 0.3s ease'
+                        }} 
+                        maxWidth={false} 
+                        disableGutters
+                    >
+                        {children}
+                    </Container>
+                </DarkModeProvider>
             </body>
         </html>
     );

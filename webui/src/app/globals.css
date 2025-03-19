@@ -20,3 +20,92 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Dark Mode Styles */
+:root {
+  /* Light theme variables */
+  --background-light: white;
+  --text-light: #1a1a1a;
+  --border-light: #eaeaea;
+  --shadow-light: rgba(0, 0, 0, 0.08);
+  
+  /* Dark theme variables - with very dark blue */
+  --background-dark: #06101e;
+  --text-dark: #e6f1ff;
+  --border-dark: #233554;
+  --shadow-dark: rgba(0, 0, 0, 0.3);
+  
+  /* Accent colors */
+  --accent-blue: #1565C0;
+  --accent-blue-light: #42a5f5;
+  --accent-blue-dark: #0d47a1;
+  --accent-hover: #64ffda;
+  
+  /* Dark mode highlight colors */
+  --dark-highlight: #112240;
+  --dark-highlight-lighter: #172a45;
+  --dark-highlight-border: #303C55;
+  --dark-text-primary: #ccd6f6;
+  --dark-text-secondary: #8892b0;
+}
+
+/* Default Light Theme */
+body {
+  background-color: var(--background-light);
+  color: var(--text-light);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark Theme Overrides */
+body.dark-mode {
+  background-color: var(--background-dark);
+  color: var(--text-dark);
+}
+
+/* Dark mode adjustments for common MUI elements */
+body.dark-mode .MuiPaper-root {
+  background-color: var(--dark-highlight);
+  color: var(--dark-text-primary);
+  border-color: var(--dark-highlight-border);
+}
+
+body.dark-mode .MuiDivider-root {
+  background-color: var(--border-dark);
+}
+
+body.dark-mode .MuiTypography-root {
+  color: var(--dark-text-primary);
+}
+
+body.dark-mode .MuiTypography-colorTextSecondary {
+  color: var(--dark-text-secondary);
+}
+
+/* Hero section styling for dark mode */
+body.dark-mode .hero-section {
+  background: linear-gradient(45deg, rgba(7, 36, 82, 0.4) 0%, rgba(10, 25, 47, 0.2) 100%);
+}
+
+/* Card styling for dark mode */
+body.dark-mode .MuiCard-root,
+body.dark-mode .MuiPaper-root {
+  background-color: var(--dark-highlight);
+  border-color: var(--dark-highlight-border);
+  box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
+}
+
+/* Adjust button colors for dark mode */
+body.dark-mode .MuiButton-containedPrimary {
+  background-color: var(--accent-blue-dark);
+}
+
+body.dark-mode .MuiButton-outlinedPrimary {
+  border-color: var(--accent-blue-light);
+  color: var(--accent-blue-light);
+}
+
+/* Add subtle hover effects for dark mode */
+body.dark-mode .hover-effect:hover {
+  background-color: var(--dark-highlight-lighter);
+  transform: translateY(-5px);
+}

@@ -23,7 +23,16 @@ import { AppBar, Box, Container, IconButton, Toolbar, Typography } from "@mui/ma
 import Link from "next/link";
 import Image from "next/image";
 import { Home, Dashboard, Storage, MenuBook, DarkMode, LightMode, GitHub } from '@mui/icons-material';
-import { useState } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
+
+// Create a context for dark mode state
+export const DarkModeContext = createContext({
+    isDarkMode: false,
+    toggleDarkMode: () => {}
+});
+
+// Custom hook to use the dark mode context
+export const useDarkMode = () => useContext(DarkModeContext);
 
 const links = [
     {
@@ -45,19 +54,71 @@ const links = [
     }
 ];
 
-export default function Banner() {
+// DarkModeProvider component
+export function DarkModeProvider({ children }) {
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
     
+    // Load saved preference on mount
+    useEffect(() => {
+        const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+        setIsDarkMode(savedDarkMode);
+        
+        // Apply dark mode to document if enabled
+        if (savedDarkMode) {
+            document.documentElement.classList.add('dark-mode');
+            document.body.classList.add('dark-mode');
+        } else {
+            document.documentElement.classList.remove('dark-mode');
+            document.body.classList.remove('dark-mode');
+        }
+    }, []);
+    
     const toggleDarkMode = () => {
         setIsAnimating(true);
+        
         setTimeout(() => {
-            setIsDarkMode(!isDarkMode);
+            setIsDarkMode(prevMode => {
+                const newMode = !prevMode;
+                
+                // Save preference
+                localStorage.setItem('darkMode', String(newMode));
+                
+                // Apply to document
+                if (newMode) {
+                    document.documentElement.classList.add('dark-mode');
+                    document.body.classList.add('dark-mode');
+                } else {
+                    document.documentElement.classList.remove('dark-mode');
+                    document.body.classList.remove('dark-mode');
+                }
+                
+                return newMode;
+            });
+            
             setTimeout(() => {
                 setIsAnimating(false);
             }, 300);
         }, 100);
-        // Additional dark mode implementation logic can be added here
+    };
+    
+    return (
+        <DarkModeContext.Provider value={{ isDarkMode, toggleDarkMode }}>
+            {children}
+        </DarkModeContext.Provider>
+    );
+}
+
+export default function Banner() {
+    const { isDarkMode, toggleDarkMode } = useDarkMode();
+    const [isAnimating, setIsAnimating] = useState(false);
+    
+    const handleToggle = () => {
+        setIsAnimating(true);
+        toggleDarkMode();
+        setTimeout(() => {
+            setIsAnimating(false);
+        }, 400);
     };
 
     return (
@@ -66,12 +127,13 @@ export default function Banner() {
             color="default" 
             elevation={0} 
             sx={{ 
-                backgroundColor: 'white', 
-                borderBottom: '1px solid #eaeaea',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+                backgroundColor: isDarkMode ? '#020c1b' : 'white', // Darker blue background
+                borderBottom: `1px solid ${isDarkMode ? '#112240' : '#eaeaea'}`,
+                boxShadow: isDarkMode ? '0 2px 12px rgba(0, 0, 0, 0.5)' : '0 2px 8px rgba(0, 0, 0, 0.08)',
                 position: 'sticky',
                 top: 0,
-                zIndex: 1000
+                zIndex: 1000,
+                transition: 'background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease'
             }}
         >
             <Container maxWidth="xl">
@@ -84,12 +146,13 @@ export default function Banner() {
                             component="div" 
                             sx={{ 
                                 fontWeight: 600, 
-                                color: 'black',
+                                color: isDarkMode ? '#ffffff' : 'black', // Pure white in dark mode
                                 fontSize: { xs: '12px', sm: '14px', md: '16px' },
                                 display: { xs: 'none', sm: 'block' },
                                 '&:hover': {
-                                        color: '#0d47a1',
-                                    }
+                                    color: isDarkMode ? '#64ffda' : '#0d47a1',
+                                },
+                                transition: 'color 0.3s ease'
                             }}
                         >
                             Kvrocks Controller
@@ -106,7 +169,7 @@ export default function Banner() {
                                 key={index}
                                 target={link._blank ? "_blank" : "_self"}
                                 sx={{
-                                    color: 'black',
+                                    color: isDarkMode ? '#ffffff' : 'black', // Pure white in dark mode
                                     textDecoration: 'none',
                                     fontWeight: 'bold',
                                     display: 'flex',
@@ -117,7 +180,7 @@ export default function Banner() {
                                     fontSize: { xs: '0.875rem', sm: '1rem' },
                                     position: 'relative',
                                     '&:hover': {
-                                        color: '#0d47a1',
+                                        color: '#64ffda', // Same teal color for both modes
                                     },
                                     '&::after': {
                                         content: '""',
@@ -126,16 +189,20 @@ export default function Banner() {
                                         height: '2px',
                                         bottom: '0',
                                         left: '0',
-                                        backgroundColor: '#1565C0',
+                                        backgroundColor: '#64ffda', // Same teal color for both modes
                                         transition: 'width 0.3s ease-in-out',
                                         marginLeft: { xs: '0.5px', sm: '1.5px' }
                                     },
                                     '&:hover::after': {
                                         width: 'calc(100% - 16px)'  // Adjusting for padding
-                                    }
+                                    },
+                                    transition: 'color 0.3s ease'
                                 }}
                             >
-                                <Typography sx={{ display: { xs: 'none', md: 'block' } }}>
+                                <Typography sx={{ 
+                                    display: { xs: 'none', md: 'block' },
+                                    color: 'inherit'
+                                }}>
                                     {link.title}
                                 </Typography>
                             </Box>
@@ -144,12 +211,12 @@ export default function Banner() {
                         {/* Dark Mode Toggle with Animated Icon Change */}
                         <IconButton 
                             color="primary" 
-                            onClick={toggleDarkMode}
+                            onClick={handleToggle}
                             aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
                             sx={{ 
-                                color: 'black',
+                                color: isDarkMode ? '#ffffff' : 'black', // Pure white in dark mode
                                 position: 'relative',
-                                '&:hover': { color: '#0d47a1' },
+                                '&:hover': { color: '#64ffda' }, // Same teal color for both modes
                                 '&::after': {
                                     content: '""',
                                     position: 'absolute',
@@ -157,13 +224,13 @@ export default function Banner() {
                                     height: '2px',
                                     bottom: '5px',
                                     left: '25%',
-                                    backgroundColor: '#1565C0',
+                                    backgroundColor: '#64ffda', // Same teal color for both modes
                                     transition: 'width 0.3s ease-in-out'
                                 },
                                 '&:hover::after': {
                                     width: '50%'
                                 },
-                                // Disable button during animation
+                                transition: 'color 0.3s ease',
                                 pointerEvents: isAnimating ? 'none' : 'auto'
                             }}
                         >
@@ -205,9 +272,9 @@ export default function Banner() {
                             rel="noopener noreferrer"
                             aria-label="GitHub repository"
                             sx={{ 
-                                color: 'black',
+                                color: isDarkMode ? '#ffffff' : 'black', // Pure white in dark mode
                                 position: 'relative',
-                                '&:hover': { color: '#0d47a1' },
+                                '&:hover': { color: '#64ffda' }, // Same teal color for both modes
                                 '&::after': {
                                     content: '""',
                                     position: 'absolute',
@@ -215,12 +282,13 @@ export default function Banner() {
                                     height: '2px',
                                     bottom: '5px',
                                     left: '25%',
-                                    backgroundColor: '#1565C0',
+                                    backgroundColor: '#64ffda', // Same teal color for both modes
                                     transition: 'width 0.3s ease-in-out'
                                 },
                                 '&:hover::after': {
                                     width: '50%'
-                                }
+                                },
+                                transition: 'color 0.3s ease'
                             }}
                         >
                             <GitHub />

@@ -1,3 +1,5 @@
+'use client';
+
 /* 
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -25,8 +27,11 @@ import SecurityIcon from '@mui/icons-material/Security';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import { useDarkMode } from './ui/banner';
 
 export default function Home() {
+    const { isDarkMode } = useDarkMode();
+    
     // Enhanced features with better descriptions
     const features = [
         {
@@ -83,29 +88,37 @@ export default function Home() {
         {
             title: "GitHub Repository",
             description: "Access the source code, contribute, and report issues.",
-            icon: <GitHubIcon sx={{ fontSize: 36, color: "#1565C0" }} />,
+            icon: <GitHubIcon sx={{ fontSize: 36, color: isDarkMode ? "#90caf9" : "#1565C0" }} />,
             link: "https://github.com/apache/kvrocks-controller"
         },
         {
             title: "Documentation",
             description: "Learn how to use Kvrocks Controller effectively.",
-            icon: <MenuBookIcon sx={{ fontSize: 36, color: "#1565C0" }} />,
+            icon: <MenuBookIcon sx={{ fontSize: 36, color: isDarkMode ? "#90caf9" : "#1565C0" }} />,
             link: "https://github.com/apache/kvrocks-controller/wiki"
         }
     ];
 
     return (
-        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+        <Container maxWidth="lg" sx={{ 
+            mt: 4, 
+            mb: 4,
+            color: isDarkMode ? 'white' : 'inherit',
+            transition: 'color 0.3s ease',
+        }}>
             {/* Hero Section with Logo */}
             <Box sx={{ 
                 textAlign: 'center', 
                 py: 8,
-                background: 'linear-gradient(45deg, rgba(21,101,192,0.1) 0%, rgba(33,150,243,0.1) 100%)',
+                background: isDarkMode 
+                    ? 'linear-gradient(45deg, rgba(21,101,192,0.05) 0%, rgba(33,150,243,0.05) 100%)'
+                    : 'linear-gradient(45deg, rgba(21,101,192,0.1) 0%, rgba(33,150,243,0.1) 100%)',
                 borderRadius: 2,
                 mb: 6,
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center'
+                alignItems: 'center',
+                transition: 'background 0.3s ease'
             }}>
                 {/* Logo */}
                 <Box sx={{ mb: 3 }}>
@@ -115,7 +128,9 @@ export default function Home() {
                         style={{ 
                             width: "120px",
                             height: "auto",
-                            filter: "drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.2))"
+                            filter: isDarkMode 
+                                ? "drop-shadow(0px 4px 8px rgba(255, 255, 255, 0.2))" 
+                                : "drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.2))"
                         }}
                     />
                 </Box>
@@ -126,7 +141,9 @@ export default function Home() {
                     gutterBottom
                     sx={{ 
                         fontWeight: 700,
-                        background: 'linear-gradient(45deg, #1565C0 0%, #42a5f5 100%)',
+                        background: isDarkMode 
+                            ? 'linear-gradient(45deg, #42a5f5 0%, #90caf9 100%)'
+                            : 'linear-gradient(45deg, #1565C0 0%, #42a5f5 100%)',
                         WebkitBackgroundClip: 'text',
                         WebkitTextFillColor: 'transparent'
                     }}
@@ -138,17 +155,21 @@ export default function Home() {
                 <Box sx={{ 
                     width: '120px', 
                     height: '3px', 
-                    background: 'linear-gradient(90deg, transparent, #1565C0, transparent)',
+                    background: isDarkMode
+                        ? 'linear-gradient(90deg, transparent, #90caf9, transparent)'
+                        : 'linear-gradient(90deg, transparent, #1565C0, transparent)',
                     mb: 3,
-                    borderRadius: '3px'
+                    borderRadius: '3px',
+                    transition: 'background 0.3s ease'
                 }} />
 
-                <Typography variant="h5" color="text.secondary" paragraph sx={{ 
+                <Typography variant="h5" color={isDarkMode ? 'rgba(255, 255, 255, 0.7)' : 'text.secondary'} paragraph sx={{ 
                     maxWidth: '800px', 
                     mx: 'auto', 
                     mb: 4,
                     fontWeight: 300,
-                    lineHeight: 1.5
+                    lineHeight: 1.5,
+                    transition: 'color 0.3s ease'
                 }}>
                     A comprehensive management interface for distributed Kvrocks clusters, 
                     designed for reliability, scalability, and operational excellence
@@ -184,15 +205,16 @@ export default function Home() {
                         size="large" 
                         href="https://github.com/apache/kvrocks-controller/issues/135"
                         sx={{
-                            borderColor: '#1976d2',
-                            color: '#1976d2',
+                            borderColor: isDarkMode ? '#90caf9' : '#1976d2',
+                            color: isDarkMode ? '#90caf9' : '#1976d2',
                             fontWeight: 'medium',
                             px: 3,
                             '&:hover': {
-                                borderColor: '#0d47a1',
-                                color: '#0d47a1',
-                                backgroundColor: 'rgba(33, 150, 243, .05)'
-                            }
+                                borderColor: isDarkMode ? '#bbdefb' : '#0d47a1',
+                                color: isDarkMode ? '#bbdefb' : '#0d47a1',
+                                backgroundColor: isDarkMode ? 'rgba(144, 202, 249, 0.05)' : 'rgba(33, 150, 243, .05)'
+                            },
+                            transition: 'border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease'
                         }}
                     >
                         Give Feedback
@@ -210,7 +232,8 @@ export default function Home() {
                         mb: 1, 
                         textAlign: 'center',
                         fontWeight: 600,
-                        color: '#1565C0'
+                        color: isDarkMode ? '#90caf9' : '#1565C0',
+                        transition: 'color 0.3s ease'
                     }}
                 >
                     Key Features
@@ -220,10 +243,11 @@ export default function Home() {
                 <Box sx={{ 
                     width: '80px', 
                     height: '3px', 
-                    background: '#1565C0',
+                    background: isDarkMode ? '#90caf9' : '#1565C0',
                     mx: 'auto',
                     mb: 5,
-                    borderRadius: '3px'
+                    borderRadius: '3px',
+                    transition: 'background 0.3s ease'
                 }} />
                 
                 <Grid container spacing={4}>
@@ -238,12 +262,13 @@ export default function Home() {
                                     flexDirection: 'column',
                                     alignItems: 'center',
                                     textAlign: 'center',
-                                    transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
-                                    borderTop: '3px solid #1565C0',
+                                    transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease',
+                                    borderTop: isDarkMode ? '3px solid #90caf9' : '3px solid #1565C0',
                                     borderRadius: '4px',
+                                    backgroundColor: isDarkMode ? '#1e1e1e' : 'white',
                                     '&:hover': {
                                         transform: 'translateY(-8px)',
-                                        boxShadow: '0 10px 20px rgba(0, 0, 0, 0.1)'
+                                        boxShadow: isDarkMode ? '0 10px 20px rgba(0, 0, 0, 0.4)' : '0 10px 20px rgba(0, 0, 0, 0.1)'
                                     }
                                 }}
                             >
@@ -261,13 +286,21 @@ export default function Home() {
                                     gutterBottom
                                     sx={{
                                         fontWeight: 600,
-                                        color: '#1565C0',
-                                        mb: 1.5
+                                        color: isDarkMode ? '#90caf9' : '#1565C0',
+                                        mb: 1.5,
+                                        transition: 'color 0.3s ease'
                                     }}
                                 >
                                     {feature.title}
                                 </Typography>
-                                <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6 }}>
+                                <Typography 
+                                    variant="body2" 
+                                    color={isDarkMode ? 'rgba(255, 255, 255, 0.7)' : 'text.secondary'}
+                                    sx={{ 
+                                        lineHeight: 1.6,
+                                        transition: 'color 0.3s ease'
+                                    }}
+                                >
                                     {feature.description}
                                 </Typography>
                             </Paper>
@@ -286,7 +319,8 @@ export default function Home() {
                         mb: 1, 
                         textAlign: 'center',
                         fontWeight: 600,
-                        color: '#1565C0'
+                        color: isDarkMode ? '#90caf9' : '#1565C0',
+                        transition: 'color 0.3s ease'
                     }}
                 >
                     Documentation
@@ -296,10 +330,11 @@ export default function Home() {
                 <Box sx={{ 
                     width: '80px', 
                     height: '3px', 
-                    background: '#1565C0',
+                    background: isDarkMode ? '#90caf9' : '#1565C0',
                     mx: 'auto',
                     mb: 5,
-                    borderRadius: '3px'
+                    borderRadius: '3px',
+                    transition: 'background 0.3s ease'
                 }} />
                 
                 <Grid container spacing={4} justifyContent="center">
@@ -318,11 +353,12 @@ export default function Home() {
                                         height: '100%',
                                         display: 'flex',
                                         alignItems: 'center',
-                                        borderLeft: '3px solid #1565C0',
-                                        transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
+                                        borderLeft: isDarkMode ? '3px solid #90caf9' : '3px solid #1565C0',
+                                        backgroundColor: isDarkMode ? '#1e1e1e' : 'white',
+                                        transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease',
                                         '&:hover': {
                                             transform: 'translateY(-5px)',
-                                            boxShadow: '0 8px 16px rgba(0, 0, 0, 0.1)'
+                                            boxShadow: isDarkMode ? '0 8px 16px rgba(0, 0, 0, 0.4)' : '0 8px 16px rgba(0, 0, 0, 0.1)'
                                         }
                                     }}
                                 >
@@ -334,19 +370,28 @@ export default function Home() {
                                         width: '60px',
                                         height: '60px',
                                         borderRadius: '50%',
-                                        background: 'rgba(21, 101, 192, 0.1)',
-                                        p: 2
+                                        background: isDarkMode ? 'rgba(144, 202, 249, 0.1)' : 'rgba(21, 101, 192, 0.1)',
+                                        p: 2,
+                                        transition: 'background 0.3s ease'
                                     }}>{doc.icon}</Box>
                                     <Box>
                                         <Typography 
                                             variant="h6" 
                                             component="h3" 
                                             gutterBottom
-                                            sx={{ color: '#1565C0', fontWeight: 600 }}
+                                            sx={{ 
+                                                color: isDarkMode ? '#90caf9' : '#1565C0', 
+                                                fontWeight: 600,
+                                                transition: 'color 0.3s ease'
+                                            }}
                                         >
                                             {doc.title}
                                         </Typography>
-                                        <Typography variant="body2" color="text.secondary">
+                                        <Typography 
+                                            variant="body2" 
+                                            color={isDarkMode ? 'rgba(255, 255, 255, 0.7)' : 'text.secondary'}
+                                            sx={{ transition: 'color 0.3s ease' }}
+                                        >
                                             {doc.description}
                                         </Typography>
                                     </Box>
@@ -358,13 +403,28 @@ export default function Home() {
             </Box>
             
             {/* Footer with improved spacing */}
-            <Divider sx={{ my: 6 }} />
+            <Divider sx={{ 
+                my: 6,
+                borderColor: isDarkMode ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.12)',
+                transition: 'border-color 0.3s ease'
+            }} />
             
             <Box sx={{ textAlign: 'center', py: 2 }}>
-                <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+                <Typography 
+                    variant="body1" 
+                    color={isDarkMode ? 'rgba(255, 255, 255, 0.7)' : 'text.secondary'} 
+                    sx={{ 
+                        mb: 2,
+                        transition: 'color 0.3s ease'
+                    }}
+                >
                     Apache Kvrocks Controller is currently in active development.
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography 
+                    variant="body2" 
+                    color={isDarkMode ? 'rgba(255, 255, 255, 0.5)' : 'text.secondary'}
+                    sx={{ transition: 'color 0.3s ease' }}
+                >
                     © {new Date().getFullYear()} Apache Software Foundation
                 </Typography>
             </Box>
